@@ -1,4 +1,13 @@
 import { Footer, Sidebar, TopMenu } from "@/components";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    template: '%s - Teslo | Shop',
+    default: 'Home '
+  },
+  description: 'Una tienda virtual de productos'
+}
 
 export default function ShoopLayout({
   children,
