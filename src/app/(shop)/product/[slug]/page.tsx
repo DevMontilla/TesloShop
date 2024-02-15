@@ -5,12 +5,12 @@ import { getProductBySlug } from "@/actions";
 import {
   ProductMobileSlideshow,
   ProductSlideshow,
-  QuantitySelector,
-  SizeSelector,
   StockLabel,
 } from "@/components";
-import { titleFont } from "@/config/fonts";
 import { notFound } from "next/navigation";
+import { AddToCart } from "./ui/AddToCart";
+import { titleFont } from "@/config/fonts";
+import { currencyFormat } from "@/utils";
 
 interface Props {
   params: {
@@ -34,12 +34,11 @@ export async function generateMetadata(
   return {
     title: product?.title ?? "Producto no encontrado",
     description: product?.description ?? "",
-    openGraph: {
-      title: product?.title ?? "Producto no encontrado",
-      description: product?.description ?? "",
-      // images: [], // https://misitioweb.com/images/og-image.jpg
-      images: [`/products/${product?.images[1]}`]
-    },
+    // openGraph: {
+    //   title: product?.title ?? "Producto no encontrado",
+    //   description: product?.description ?? "",
+      // images: [`/products/${product?.images[1]}`],
+    // },
   };
 }
 
@@ -71,13 +70,8 @@ export default async function ProductPage({ params }: Props) {
         <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>
-        <p className="text-lg mb-5">$ {product.price}</p>
-        <SizeSelector
-          selectedSize={product.sizes[1]}
-          availableSizes={product.sizes}
-        />
-        <QuantitySelector quantity={2} />
-        <button className="btn-primary my-5">Agregar al carrito</button>
+        <p className="text-lg mb-5">{currencyFormat(product.price)}</p>
+        <AddToCart product={product} />
         <h3 className="font-bold text-sm">Descripción</h3>
         <p className="font-light">{product.description}</p>
       </div>
