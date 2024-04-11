@@ -41,7 +41,6 @@ export const authConfig: NextAuthConfig = {
         if (!bcryptj.compareSync(password, user.password)) return null;
 
         const { password: _, ...rest } = user;
-        console.log({ rest });
 
         return rest;
       },

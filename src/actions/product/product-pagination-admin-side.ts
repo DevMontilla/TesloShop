@@ -9,7 +9,7 @@ interface PaginationOptions {
   gender?: Gender;
 }
 
-export const getPaginatedProductsWithImages = async ({
+export const getPaginatedProductsForAdmin = async ({
   page = 1,
   take = 12,
   gender,
@@ -33,13 +33,6 @@ export const getPaginatedProductsWithImages = async ({
       },
       where: {
         gender: gender as Gender,
-        images: {
-          some: {
-            url: {
-              not: undefined
-            }
-          }
-        }
       },
     });
     

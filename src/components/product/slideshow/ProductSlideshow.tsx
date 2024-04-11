@@ -12,7 +12,8 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 import "./slideshow.css";
-import Image from "next/image";
+import { ProductImage } from "../image/ProductImage";
+
 
 interface Props {
   images: string[];
@@ -22,6 +23,8 @@ interface Props {
 
 export const ProductSlideshow = ({ images, title, className }: Props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
+
+  // TODO: if the prodcuct does not have image dont render the content of this component
 
   return (
     <div className={className}>
@@ -42,10 +45,10 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               width={1024}
               height={800}
-              src={`/products/${image}`}
+              src={image}
               alt={title}
               className="rounded-lg object-fill"
             />
@@ -63,10 +66,10 @@ export const ProductSlideshow = ({ images, title, className }: Props) => {
       >
         {images.map((image) => (
           <SwiperSlide key={image}>
-            <Image
+            <ProductImage
               width={300}
               height={300}
-              src={`/products/${image}`}
+              src={image}
               alt={title}
               className="rounded-lg object-fill"
             />
