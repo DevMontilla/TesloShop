@@ -238,7 +238,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                   className="rounded-t-md shadow-md"
                 />
                 <button
-                  className="btn-danger w-full rounded-b-md text-xs h-6 flex items-center justify-center"
+                  className="btn-danger w-[300px] sm:w-full rounded-b-md text-xs h-6 flex items-center justify-center"
                   onClick={() => deleteProductImage(image)}
                 >
                   Eliminar

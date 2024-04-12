@@ -18,7 +18,7 @@ export const ProductImage = ({
   height,
 }: Props) => {
   const localSrc = src
-    ? src.startsWith("http") // https://urlcompletodelaimagen.jpg
+    ? src.startsWith("http")
       ? src
       : `/products/${src}`
     : "/imgs/placeholder.jpg";
@@ -30,7 +30,6 @@ export const ProductImage = ({
       height={height}
       alt={alt}
       className={className}
-      style={style}
     />
   );
 };
