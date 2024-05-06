@@ -2,12 +2,10 @@
 
 import { PayPalOrderStatusResponse } from "@/interfaces";
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath,  } from "next/cache";
 
 export const paypalCheckPayment = async (paypalTransactionId) => {
   const authToken = await getPaypalBearerToken();
-
-  console.log({ authToken });
 
   if (!authToken)
     return {

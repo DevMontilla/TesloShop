@@ -1,52 +1,21 @@
 "use client";
 
-import { placeOrder } from "@/actions";
+import { PayPalButton } from "@/components";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
-import clsx from "clsx";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const PlaceOrder = () => {
-  const router = useRouter()
   const [loaded, setLoaded] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const address = useAddressStore((state) => state.address);
 
   const { subTotal, tax, total, itemsInCart } = useCartStore((state) =>
     state.getSummaryInformation()
   );
-  const cart = useCartStore((state) => state.cart)
-  const clearCart = useCartStore((state) => state.clearCart)
 
   useEffect(() => {
     setLoaded(true);
   }, []);
-
-  const onPlaceOrder = async () => {
-    setIsPlacingOrder(true); //
-
-    const productsToOrder = cart.map(product=>({
-        productId: product.id,
-        quantity: product.quantity,
-        size: product.size,
-    }))
-
-    // TODO: server action
-    const resp = await placeOrder(productsToOrder, address)
-
-    if(!resp.ok) {
-      setIsPlacingOrder(false)
-      setErrorMessage(resp.message)
-      return
-    }
-    
-    //* TODO OK
-    await clearCart()
-    router.replace(`/orders/${resp.order.id}`)
-
-  };
 
   if (!loaded) {
     return <p>Cargando...</p>;
@@ -97,20 +66,7 @@ export const PlaceOrder = () => {
             </a>
           </span>
         </div>
-
-        {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
-
-        <button
-          className={clsx("w-full flex justify-center", {
-            "btn-primary": !isPlacingOrder,
-            "btn-disabled": isPlacingOrder,
-          })}
-          onClick={onPlaceOrder}
-          disabled={isPlacingOrder}
-          //   href={"/orders/123"}
-        >
-          Confirmar orden
-        </button>
+        <PayPalButton />
       </div>
     </div>
   );

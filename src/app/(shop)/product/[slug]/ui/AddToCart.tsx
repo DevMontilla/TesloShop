@@ -1,20 +1,32 @@
 "use client";
 
+import { getStockBySlug } from "@/actions";
 import { QuantitySelector, SizeSelector, StockLabel } from "@/components";
 import type { CartProduct, Product, Size } from "@/interfaces";
 import { useCartStore } from "@/store";
 import clsx from "clsx";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   product: Product;
+  slug: string;
 }
 
-export const AddToCart = ({ product }: Props) => {
+export const AddToCart = ({ product, slug }: Props) => {
   const addProductToCart = useCartStore((state) => state.addProductToCart);
   const [size, setSize] = useState<Size | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
+  const [stock, setStock] = useState(0);
+
+  // TODO: crear hook para obtener el stock
+  useEffect(() => {
+    const getStock = async () => {
+      const inStock = await getStockBySlug(slug);
+      setStock(inStock);
+    };
+    getStock();
+  }, [slug]);
 
   const addToCart = () => {
     setPosted(true);
@@ -49,9 +61,12 @@ export const AddToCart = ({ product }: Props) => {
       )}
       <button
         onClick={() => addToCart()}
-        className={clsx("btn-primary my-5", {
+        className={clsx("my-5", {
           "mt-2 mb-5": posted && !size,
+          "btn-disabled": !stock,
+          "btn-primary": stock,
         })}
+        disabled={!stock}
       >
         Agregar al carrito
       </button>

@@ -6,7 +6,7 @@ import { auth } from "@/auth.config";
 export default async function AddressPage() {
   const countries = await getCountries();
   const session = await auth();
-  const userAddress = await getUserAddress(session.user.id);
+  const userAddress = await getUserAddress(session?.user.id);
 
   return (
     <div className="flex flex-col sm:justify-center sm:items-center mb-72 px-10 sm:px-0">

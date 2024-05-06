@@ -10,19 +10,23 @@ interface ProductToOrder {
   size: Size;
 }
 
+// TODO: verificar que el orderId sea un UUID 
+
 export const placeOrder = async (
   productIds: ProductToOrder[],
-  address: Address
+  address: Address,
+  orderId: string,
+  transactionId: string
 ) => {
   const session = await auth();
   const userId = session?.user.id;
 
-  if (!userId) {
-    return {
-      ok: false,
-      message: "No hay sesión de usuario",
-    };
-  }
+  // if (!userId) {
+  //   return {
+  //     ok: false,
+  //     message: "No hay sesión de usuario",
+  //   };
+  // }
 
   const products = await prisma.product.findMany({
     where: {
@@ -85,11 +89,13 @@ export const placeOrder = async (
       // Create a new order object and detail
       const order = await tx.order.create({
         data: {
+          id: orderId,
           userId: userId,
           itemsInOrder: itemsInOrder,
           subTotal: subTotal,
           tax: tax,
           total: total,
+          transactionId: transactionId
         },
       });
 

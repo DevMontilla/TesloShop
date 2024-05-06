@@ -40,7 +40,7 @@ export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
   });
 
   const router = useRouter()
-  const {data: session} = useSession({required: true})
+  const {data: session} = useSession({required: false})
   const setAddress = useAddressStore((state) => state.setAddress);
   const address = useAddressStore((state) => state.address);
 
@@ -56,9 +56,10 @@ export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
 
     if (data.rememberAddress) {
       await setUserAddress(restAddress, session!.user.id)
-    } else {
-      await deleteUserAddress(session!.user.id)
-    }
+    } 
+    // else {
+    //   await deleteUserAddress(session!.user.id)
+    // }
 
     router.push('/checkout')
   };
@@ -147,7 +148,7 @@ export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
       </div>
 
       <div className="flex flex-col mb-2 sm:mt-1">
-        <div className="inline-flex items-center mb-10">
+        {session?.user.id && <div className="inline-flex items-center mb-10">
           <label
             className="relative flex cursor-pointer items-center rounded-full p-3"
             htmlFor="checkbox"
@@ -177,7 +178,7 @@ export const AddressForm = ({ countries, userStoreAddress = {} }: Props) => {
             </div>
           </label>
           <span>Recordar dirección</span>
-        </div>
+        </div>}
 
         <button
           // href="/checkout"

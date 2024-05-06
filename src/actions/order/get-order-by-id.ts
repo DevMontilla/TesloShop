@@ -6,11 +6,11 @@ import prisma from "@/lib/prisma";
 export const getOrderById = async (id: string) => {
   const session = await auth();
 
-  if (!session?.user)
-    return {
-      ok: false,
-      message: "Must be authenticated",
-    };
+  // if (!session?.user)
+  //   return {
+  //     ok: false,
+  //     message: "Must be authenticated",
+  //   };
 
   try {
     const order = await prisma.order.findUnique({
@@ -45,11 +45,11 @@ export const getOrderById = async (id: string) => {
 
     if(!order) throw `Order # ${order.id} not found`
 
-    if(session.user.role === 'user') {
-        if(session.user.id !== order.userId) {
-            throw `Order # ${order.id} does not belong to this user`
-        }
-    }
+    // if(session.user.role === 'user') {
+    //     if(session.user.id !== order.userId) {
+    //         throw `Order # ${order.id} does not belong to this user`
+    //     }
+    // }
 
     return {
       ok: true,
